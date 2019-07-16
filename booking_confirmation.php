@@ -25,7 +25,7 @@
     </style>
 </head>
 <body>
-
+<!-- This is page currently displays a message to the user that the reservation has been successful. Features such as e-mail confirmation are however not yet implemented -->
 <div class="container box">
     <h3 align="center">Restaurant Reservation Booking System</h3>
     <br/>

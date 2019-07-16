@@ -3,8 +3,7 @@
 // Include config file
 include "database_config.php";
 
-//error_reporting(0);
-
+// This if statement is executed once the booking confirmation button is pressed
 if (isset($_POST['booking_Confirmation'])) {
 
     $firstNameGuest = $_POST['guestFirstName'];
@@ -15,6 +14,7 @@ if (isset($_POST['booking_Confirmation'])) {
     $table = $_POST['table_selected'];
     $dateTimeChosen = $_POST['dateTimeChosen'];
 
+    //SQL queries to insert the data entered by the guest
     $guest_details = "INSERT INTO guest_details (guestFirstName,guestLastName,guestEmail,guestPhone,numberOfGuests,dateTimeChosen) 
                               VALUES ('$firstNameGuest','$lastNameGuest','$guestEmail','$guestPhone','$numberGuests','$dateTimeChosen')";
     $result = mysqli_query($connect, $guest_details);
@@ -22,7 +22,7 @@ if (isset($_POST['booking_Confirmation'])) {
     $table_details = "INSERT INTO guest_reservsation_details (table_no, table_booked) VALUES ('$table',TRUE)";
     $table_results = mysqli_query($connect, $table_details);
 
-
+    //redirects to the booking confirmation page after the guest data has been inserted into the database
     header("Location:http://localhost/restaurant_booking/booking_confirmation.php");
 }
 
@@ -54,7 +54,7 @@ if (isset($_POST['booking_Confirmation'])) {
     </style>
 </head>
 <body>
-
+<!-- this div class displays the input fields and their corresponding descriptions -->
 <div class="container box">
     <h3 align="center">Restaurant Reservation Booking System</h3>
     <br/>
@@ -112,10 +112,11 @@ if (isset($_POST['booking_Confirmation'])) {
    _________________________________________________________________________________________________________________</p>
 
 </div>
-
+<!-- this jQuery script allows the user to pick a date and time from the corresponding input field -->
 <script>
     $("#dateTime").datetimepicker();
 </script>
+<!-- this jQuery script enables the table that the guest selected to be shown in its corresponding input field -->
 <script>
     $("select[name='table_picker']").change(function(){
         var value = $(this).val();
