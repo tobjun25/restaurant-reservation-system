@@ -6,6 +6,7 @@ include "database_config.php";
 // This if statement is executed once the booking confirmation button is pressed
 if (isset($_POST['booking_Confirmation'])) {
 
+    //these variables hold the data entered by the guest during the booking process
     $firstNameGuest = $_POST['guestFirstName'];
     $lastNameGuest = $_POST['guestLastName'];
     $guestEmail = $_POST['guestEmail'];
@@ -13,14 +14,18 @@ if (isset($_POST['booking_Confirmation'])) {
     $numberGuests = $_POST['numberOfGuests'];
     $table = $_POST['table_selected'];
     $dateTimeChosen = $_POST['dateTimeChosen'];
+    $table_size = $_POST['group_size_picker'];
 
     //SQL queries to insert the data entered by the guest
-    $guest_details = "INSERT INTO guest_details (guestFirstName,guestLastName,guestEmail,guestPhone,numberOfGuests,dateTimeChosen) 
-                              VALUES ('$firstNameGuest','$lastNameGuest','$guestEmail','$guestPhone','$numberGuests','$dateTimeChosen')";
-    $result = mysqli_query($connect, $guest_details);
+    $guest_details = "INSERT INTO guest_details (guestFirstName,guestLastName,guestEmail,guestPhone) 
+                              VALUES ('$firstNameGuest','$lastNameGuest','$guestEmail','$guestPhone')";
+    $guest_results = mysqli_query($connect, $guest_details);
 
-    $table_details = "INSERT INTO guest_reservsation_details (table_no, table_booked) VALUES ('$table',TRUE)";
+    $table_details = "INSERT INTO table_details (table_size) VALUES ('$table_size') ";
     $table_results = mysqli_query($connect, $table_details);
+
+    $reservation_details = "INSERT INTO guest_reservsation_details (dateTimeChosen) VALUES ('$dateTimeChosen')";
+    $reservation_results = mysqli_query($connect, $table_details);
 
     //redirects to the booking confirmation page after the guest data has been inserted into the database
     header("Location:http://localhost/restaurant_booking/booking_confirmation.php");
@@ -84,7 +89,7 @@ if (isset($_POST['booking_Confirmation'])) {
             <td><input type="text" name="numberOfGuests"</td>
         </tr>
         <tr>
-            <td>Please chose a table: &nbsp</td>
+            <td>Please choose a table: &nbsp</td>
             <td><select name="table_picker">
                     <option value="Table 1">Table 1</option>
                     <option value="Table 2">Table 2</option>
@@ -98,6 +103,15 @@ if (isset($_POST['booking_Confirmation'])) {
                     <option value="Table 10">Table 10</option>
                 </select>
                 <input type="text" id="optionOutput" name="table_selected">
+            </td>
+        </tr>
+        <tr>
+            <td>Please choose the number of guests: &nbsp</td>
+            <td><select name="group_size_picker">
+                    <option value="small">small (1-4)</option>
+                    <option value="medium">medium (5-9)</option>
+                    <option value="large">large(10+)</option>
+                </select>
             </td>
         </tr>
     <tr>
